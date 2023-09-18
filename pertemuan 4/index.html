@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <label>Number 1</label><br />
+      <input id="one" type="number" placeholder="Number 1" />
+    </div>
+
+    <div>
+      <label>Number 2</label><br />
+      <input id="two" type="number" placeholder="Number 2" />
+    </div>
+    <div>
+      <button onclick="plus()">+</button>
+      <button onclick="minus()">-</button>
+      <button onclick="multiply()">*</button>
+      <button onclick="divide()">/</button>
+    </div>
+    <p id="result">Result :</p>
+
+    <script>
+      const n1 = document.getElementById("one");
+      const n2 = document.getElementById("two");
+      const result = document.getElementById("result");
+      const plus = () => {
+        result.innerHTML =
+          "Result : " + (parseFloat(n1.value) + parseFloat(n2.value));
+      };
+      const minus = () => {
+        result.innerHTML =
+          "Result : " + (parseFloat(n1.value) - parseFloat(n2.value));
+      };
+      const multiply = () => {
+        result.innerHTML =
+          "Result : " + parseFloat(n1.value) * parseFloat(n2.value);
+      };
+      const divide = () => {
+        result.innerHTML =
+          "Result : " +
+          (n2.value === "0"
+            ? "Undefined"
+            : parseFloat(n1.value) / parseFloat(n2.value));
+      };
+    </script>
+  </body>
+</html>
