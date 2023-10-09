@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+      }
+
+      #location {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      #iconWeather {
+        width: 100px;
+        height: 100px;
+        margin-top: 20px;
+        animation: munyer 2s ease infinite;
+      }
+
+      @keyframes munyer {
+        0% {
+          transform: rotate(-5deg);
+        }
+        50% {
+          transform: rotate(5deg);
+        }
+        100% {
+          transform: rotate(-5deg);
+        }
+      }
+
+      #textWeather {
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      #tempC {
+        font-size: 24px;
+        margin-top: 10px;
+      }
+
+      #feelslike_c {
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      #wind {
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="location"></div>
+    <img id="iconWeather" src="placeholder" alt="" />
+    <div id="textWeather"></div>
+    <div id="tempC"></div>
+    <div id="feelslike_c"></div>
+    <div id="wind"></div>
+
+    <script>
+      // const options = {
+      //   method: "GET",
+      //   headers: {
+      //     "X-RapidAPI-Key":
+      //       "9c3f2cf747mshf3274839bf79243p1a0b52jsn6d982122cd96",
+      //     "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
+      //   },
+      // };
+
+      const getLocationJs = async () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position);
+          const loc = position.coords;
+          const url = `https://weatherapi-com.p.rapidapi.com/current.json?q=${loc.latitude},${loc.longitude}`;
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", url);
+          xhr.setRequestHeader(
+            "X-RapidAPI-Key",
+            "9c3f2cf747mshf3274839bf79243p1a0b52jsn6d982122cd96"
+          );
+          xhr.setRequestHeader(
+            "X-RapidAPI-Host",
+            "weatherapi-com.p.rapidapi.com"
+          );
+
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              const res = xhr.responseText;
+              console.log(res);
+              const data = JSON.parse(res);
+              console.log(data);
+              document.getElementById(
+                "location"
+              ).innerHTML = `Weather at ${data.location.name}, ${data.location.region}, ${data.location.country}`;
+              document.getElementById(
+                "iconWeather"
+              ).src = `https:${data.current.condition.icon}`;
+              document.getElementById(
+                "textWeather"
+              ).innerHTML = `${data.current.condition.text}`;
+              document.getElementById(
+                "tempC"
+              ).innerHTML = `Temperature : ${data.current.temp_c} °C`;
+              document.getElementById(
+                "feelslike_c"
+              ).innerHTML = `Feels Like : ${data.current.feelslike_c} °C`;
+              document.getElementById(
+                "wind"
+              ).innerHTML = `Wind : ${data.current.wind_degree}° speed: ${data.current.wind_kph} kph`;
+            }
+          };
+          xhr.send();
+        });
+      };
+      getLocationJs();
+    </script>
+  </body>
+</html>
